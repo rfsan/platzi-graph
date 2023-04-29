@@ -15,7 +15,7 @@ record_types:
   category:
     fill: "#98CA3F"
     stroke: "#98CA3F"
-  school:
+  track:
     fill: "#0791E6"
     stroke: "#0791E6"
   course:
@@ -24,9 +24,9 @@ record_types:
 link_types:
   undefined:
     stroke: simple
-    color: "#F0F6FA"
+    color: "#E2DFDF"
 record_filters: []
-graph_background_color: "#ffffff"
+graph_background_color: "#F7F7FF"
 graph_highlight_color: "#ff6a6a"
 graph_highlight_on_hover: true
 graph_text_size: 10

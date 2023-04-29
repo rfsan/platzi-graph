@@ -28,11 +28,11 @@ def create_categories_files(df: pd.DataFrame):
     for category in categories:
         category_id = get_file_id(f"category_{category}")
         sub_df = df[df["category"] == category]
-        schools_md = []
-        schools = sub_df["school_name"].unique()
-        for school in schools:
-            school_id = get_file_id(f"school_{school}")
-            schools_md.append(f"- [[{school_id}|{school}]]")
+        tracks_md = []
+        tracks = sub_df["track_name"].unique()
+        for track in tracks:
+            track_id = get_file_id(f"track_{track}")
+            tracks_md.append(f"- [[{track_id}|{track}]]")
         courses_md = []
         courses = sub_df["course_name"].unique()
         for course in courses:
@@ -40,26 +40,26 @@ def create_categories_files(df: pd.DataFrame):
             courses_md.append(f"- [[{course_id}|{course}]]")
         metadata = get_metadata_string(category, category_id, "category")
         content = "## Escuelas y rutas\n"
-        content += "\n".join(schools_md)
-        content += "## Cursos\n"
+        content += "\n".join(tracks_md)
+        content += "\n## Cursos\n"
         content += "\n".join(courses_md)
         with open(f"vault/{category}.category.md", "w") as md_file:
             md_file.write(metadata + content)
 
 
-def create_schools_files(df: pd.DataFrame):
-    schools = df["school_name"].unique()
-    for school in schools:
-        school_id = get_file_id(f"school_{school}")
+def create_tracks_files(df: pd.DataFrame):
+    tracks = df["track_name"].unique()
+    for track in tracks:
+        track_id = get_file_id(f"track_{track}")
         courses_md = []
-        courses = df[df["school_name"] == school]["course_name"].unique()
+        courses = df[df["track_name"] == track]["course_name"].unique()
         for course in courses:
             course_id = get_file_id(f"course_{course}")
             courses_md.append(f"- [[{course_id}|{course}]]")
-        metadata = get_metadata_string(school, school_id, "school")
-        content = "## Cursos\n"
+        metadata = get_metadata_string(track, track_id, "track")
+        content = "\n## Cursos\n"
         content += "\n".join(courses_md)
-        with open(f"vault/{school}.school.md", "w") as md_file:
+        with open(f"vault/{track}.track.md", "w") as md_file:
             md_file.write(metadata + content)
 
 
@@ -81,12 +81,12 @@ def main():
         shutil.rmtree(vault_dir)
     vault_dir.mkdir()
     df = pd.read_csv("./data/platzi_course_data.csv")
-    format_columns = ["category", "school_name", "course_name"]
+    format_columns = ["category", "track_name", "course_name"]
     df[format_columns] = df[format_columns].applymap(
         lambda s: "".join([x if x.isalnum() else "_" for x in s])
     )
     create_categories_files(df)
-    create_schools_files(df)
+    create_tracks_files(df)
     create_courses_files(df)
 
 

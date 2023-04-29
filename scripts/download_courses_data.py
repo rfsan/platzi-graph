@@ -23,14 +23,14 @@ def main():
     categories = soup.find_all("div", class_="Categories-item")
     for category in categories:
         category_name = format_text(category.h2.get_text())
-        schools = category.find_all("div", class_="School")
-        for school in schools:
-            school_name = format_text(school.h3.get_text())
-            school_url = base_url + school.find("a", class_="School-header-link").get(
+        tracks = category.find_all("div", class_="School")
+        for track in tracks:
+            track_name = format_text(track.h3.get_text())
+            track_url = base_url + track.find("a", class_="School-header-link").get(
                 "href"
             )
-            is_school = "escuela" in school_url
-            courses = school.find_all("a", class_="Course")
+            is_school = "escuela" in track_url
+            courses = track.find_all("a", class_="Course")
             for course in courses:
                 course_name = format_text(course.h4.get_text())
                 course_url = base_url + course.get("href")
@@ -39,8 +39,8 @@ def main():
                 data.append(
                     [
                         category_name,
-                        school_name,
-                        school_url,
+                        track_name,
+                        track_url,
                         is_school,
                         course_name,
                         course_url,
@@ -53,8 +53,8 @@ def main():
         data,
         columns=[
             "category",
-            "school_name",
-            "school_url",
+            "track_name",
+            "track_url",
             "is_school",
             "course_name",
             "course_url",
@@ -63,11 +63,11 @@ def main():
         ],
     )
 
-    # some category-school-course combinations are repeated
+    # some category-track-course combinations are repeated
     df = df.drop_duplicates()
 
     Path("./data").mkdir(exist_ok=True)
-    df.to_csv("data/platzi_course_data.csv", index=False)
+    df.to_csv("./data/platzi_course_data.csv", index=False)
 
 
 if __name__ == "__main__":
