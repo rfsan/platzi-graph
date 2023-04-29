@@ -1,0 +1,11 @@
+.vscode
+history
+data
+vault
+cosmoscope.html
+
+# Python
+.venv
+
+# Node
+node_modules
